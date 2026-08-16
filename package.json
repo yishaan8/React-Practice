@@ -13,11 +13,13 @@
   "license": "ISC",
   "author": "",
   "type": "commonjs",
-  "main": "App.js",
   "scripts": {
     "test": "jest"
   },
   "devDependencies": {
     "parcel": "^2.16.4"
+  },
+  "dependencies": {
+    "react": "^19.2.8"
   }
 }
