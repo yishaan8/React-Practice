@@ -1,7 +1,7 @@
 import RestaurantCard from "./RestaurantCard";
 import resList from "../utils/mockdata";
 import { useEffect, useState } from "react";
-
+import Shimmer from "./Shimmer";
 const Body = () => {
 
   // REACT (Local State Variables- super powerful variables) -> maintains the state of your component
@@ -21,10 +21,9 @@ const Body = () => {
 
     console.log(json)
   }
+  // conditional rendering  
 
-  
-
-  return (
+  return listofrestaurants.length=== 0 ? <Shimmer /> : (
     <div className= "body">
       <div className="filter">
         <button className="filter-btn" onClick={()=>{
