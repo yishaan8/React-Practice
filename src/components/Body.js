@@ -5,9 +5,9 @@ import Shimmer from "./Shimmer";
 const Body = () => {
 
   // REACT (Local State Variables- super powerful variables) -> maintains the state of your component
-  const[listofrestaurants,setListofrestautants ]=useState(resList);
-  const[filteredrestaurants,setFilteredrestaurants]=useState(resList);
-  
+  const[listofrestaurants,setListofrestautants ]=useState([]);
+  const[filteredrestaurants,setFilteredrestaurants]=useState([]);
+
   const[searchtext,setsearchtext]=useState("");
 
   useEffect(()=>{
@@ -16,13 +16,13 @@ const Body = () => {
 
   const fetchData= async()=>{ 
     const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.61610&lng=73.72860&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    )
-
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.49270&lng=77.53580&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+    ) 
 
     const json=await data.json()
-
-    console.log(json)
+    //optional chaining
+    setListofrestautants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+    setFilteredrestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
   }
   // conditional rendering  
 
@@ -37,14 +37,14 @@ const Body = () => {
 
           <button onClick={()=>{
             // fiter the restaurant cards and update the UI
-            const filteredList = listofrestaurants.filter((res)=>res.data.name.toLowerCase().includes(searchtext.toLowerCase()))
+            const filteredList = listofrestaurants.filter((res)=>res.info.name.toLowerCase().includes(searchtext.toLowerCase()))
             setFilteredrestaurants(filteredList)
           }}>Search</button>
         </div>
 
 
         <button className="filter-btn" onClick={()=>{
-          const filteredlist=listofrestaurants.filter(res => res.data.avgRating>4)
+          const filteredlist=listofrestaurants.filter(res => res.info.avgRating>4)
           setListofrestautants(filteredlist)
         }}
           >Top rated restaurants</button>
@@ -53,7 +53,7 @@ const Body = () => {
       
       <div className="res-container">
         {filteredrestaurants.map((restaurant) => (
-          <RestaurantCard key={restaurant.data.id} resData={restaurant} />
+          <RestaurantCard key={restaurant.info.id} resData={restaurant} />
         ))}
       </div>
     </div>
